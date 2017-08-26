@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:baselineAligned="false"
+              android:orientation="horizontal"
+              tools:context="com.example.android.bakingtime.RecipeDetailsActivity">
+
+    <!--
+    This layout is a two-pane layout for the master/detail flow.
+    -->
+
+    <!-- The fragment for showing the details of a recipe -->
+
+    <fragment
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/recipe_details_fragment"
+        android:layout_width="400dp"
+        android:layout_height="match_parent"
+        android:name="com.example.android.bakingtime.RecipeDetailsFragment"/>
+
+    <!-- A small divider -->
+    <View
+        android:layout_width="5dp"
+        android:layout_height="match_parent"
+        android:background="@android:color/darker_gray" />
+
+    <!-- The fragment for showing the details of a step in a recipe -->
+    <fragment
+        android:id="@+id/step_details_fragment"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:name="com.example.android.bakingtime.StepDetailsFragment"/>
+</LinearLayout>

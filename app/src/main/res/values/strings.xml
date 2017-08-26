@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">Baking Time</string>
+    <string name="error_message">An error has occurred. Please check your internet connection.</string>
+    <string name="no_recipe_message">No recipes found.</string>
+    <string name="recipe_list_load_error">Error loading one or more recipes!</string>
+    <string name="servings">%1$s Servings</string>
+    <string name="ingredients">Ingredients</string>
+    <string name="steps">Steps</string>
+    <string name="no_ingredients_found">No steps found</string>
+    <string name="no_steps_found">No steps found</string>
+    <string name="previous_step">Previous Step</string>
+    <string name="next_step">Next Step</string>
+    <string name="appwidget_text">EXAMPLE</string>
+    <string name="add_widget">Add widget</string>
+</resources>
