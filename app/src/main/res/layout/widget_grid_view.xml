@@ -40,7 +40,7 @@
         tools:text="Recipe" />-->
 
     <GridView
-        android:id="@+id/widget_grid_view"
+        android:id="@+id/grid_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:numColumns="1"

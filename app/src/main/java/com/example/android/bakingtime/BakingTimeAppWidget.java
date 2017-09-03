@@ -75,13 +75,14 @@ public class BakingTimeAppWidget extends AppWidgetProvider {
         RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.widget_grid_view);
         // Set the GridWidgetService intent to act as the adapter for the GridView
         Intent intent = new Intent(context, GridWidgetService.class);
-        views.setRemoteAdapter(R.id.widget_grid_view, intent);
+        intent.putExtra(MainActivity.RECIPE, sRecipe);
+        views.setRemoteAdapter(R.id.grid_view, intent);
         // Set the PlantDetailActivity intent to launch when clicked
         Intent appIntent = new Intent(context, RecipeDetailsActivity.class);
         PendingIntent appPendingIntent = PendingIntent.getActivity(context, 0, appIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-        views.setPendingIntentTemplate(R.id.widget_grid_view, appPendingIntent);
+        views.setPendingIntentTemplate(R.id.grid_view, appPendingIntent);
         // Handle empty gardens
-        views.setEmptyView(R.id.widget_grid_view, R.id.empty_view);
+        views.setEmptyView(R.id.grid_view, R.id.empty_view);
         return views;
     }
 

@@ -62,7 +62,7 @@ public class AppWidgetRefreshService extends IntentService {
                 AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(this);
                 int[] appWidgetIds = appWidgetManager.getAppWidgetIds(new ComponentName(this, BakingTimeAppWidget.class));
                 //Trigger data update to handle the GridView widgets and force a data refresh
-                appWidgetManager.notifyAppWidgetViewDataChanged(appWidgetIds, R.id.widget_grid_view);
+                appWidgetManager.notifyAppWidgetViewDataChanged(appWidgetIds, R.id.grid_view);
                 BakingTimeAppWidget.updateAppWidgets(this, appWidgetManager, appWidgetIds, recipe);
             }
         }
