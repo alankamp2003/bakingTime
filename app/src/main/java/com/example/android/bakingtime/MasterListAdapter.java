@@ -25,6 +25,8 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
+import com.example.android.bakingtime.appWidget.BakingTimeAppWidget1;
+import com.example.android.bakingtime.appWidget.RecipeStore;
 import com.example.android.bakingtime.data.Recipe;
 
 import java.util.List;
@@ -96,7 +98,8 @@ public class MasterListAdapter extends RecyclerView.Adapter<MasterListAdapter.Ma
         public void onClick(View v) {
             Recipe recipe = mRecipes.get(getAdapterPosition());
             mCallback.onRecipeSelected(recipe);
-            AppWidgetRefreshService.startActionRecipe(mContext, recipe);
+            RecipeStore.getInstance().setRecipe(recipe);
+            BakingTimeAppWidget1.sendRefreshBroadcast(mContext);
         }
     }
 }

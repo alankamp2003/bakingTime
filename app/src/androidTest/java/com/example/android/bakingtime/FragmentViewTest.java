@@ -27,24 +27,21 @@ import static android.support.test.espresso.matcher.ViewMatchers.withText;
 
 @RunWith(AndroidJUnit4.class)
 public class FragmentViewTest {
-    private static final String INGR_DESC = "1.5 TSP salt";
-    //private static final String STEP_SHORT_DESC = "Add eggs.";
-    private static final String STEP_SHORT_DESC = "Cut and serve.";
-    private static final String STEP_DESC = "9. Cut and serve.";
+    private static final String INGR_DESC = "1.0 TSP salt";
+    private static final String STEP_DESC = "Recipe Introduction";
 
     @Rule
     public ActivityTestRule<MainActivity> mActivityTestRule = new ActivityTestRule<>(MainActivity.class);
 
     @Before
     public void clickRecipeName() {
-        onView(ViewMatchers.withId(R.id.recipes_view)).perform(RecyclerViewActions.scrollToPosition(1));
-        onView(ViewMatchers.withId(R.id.recipes_view)).perform(RecyclerViewActions.actionOnItemAtPosition(1, click()));
+        onView(ViewMatchers.withId(R.id.recipes_view)).perform(RecyclerViewActions.scrollToPosition(3));
+        onView(ViewMatchers.withId(R.id.recipes_view)).perform(RecyclerViewActions.actionOnItemAtPosition(3, click()));
     }
 
     @Test
     public void hasIngredient() {
         // test whether the ingredient at this position has the right description
-        //onView(ViewMatchers.withId(R.id.ingredient_view)).perform(RecyclerViewActions.scrollToPosition(8));
         onView(ViewMatchers.withId(R.id.ingredient_view)).perform(
                 RecyclerViewActions.scrollToHolder(withIngredientDescription(INGR_DESC))
         );
@@ -54,24 +51,26 @@ public class FragmentViewTest {
     public void hasStep() {
         // test whether the step at this position has the right description
         onView(ViewMatchers.withId(R.id.step_view)).perform(
-                RecyclerViewActions.scrollToHolder(withStepDescription(STEP_SHORT_DESC)));
-        //onView(ViewMatchers.withId(R.id.step_view)).perform(RecyclerViewActions.scrollToPosition(5));
+                RecyclerViewActions.scrollToHolder(withStepDescription(STEP_DESC)));
     }
 
     @Test
     public void clickStep_ShowDescription() {
-        // test whether the ingredient at this position has the right description
+        /*
+         * test whether on clicking on a step, the fragment showing the step's details shows the
+         * right description
+         */
         onView(ViewMatchers.withId(R.id.step_view)).perform(
-                RecyclerViewActions.scrollToHolder(withStepDescription(STEP_SHORT_DESC)));
+                RecyclerViewActions.scrollToHolder(withStepDescription(STEP_DESC)));
         onView(ViewMatchers.withId(R.id.step_view)).perform(RecyclerViewActions.actionOnHolderItem(
-                withStepDescription(STEP_SHORT_DESC), click()));
-        onView(withId(R.id.step_short_description)).check(matches(withText(STEP_SHORT_DESC)));
-        //onView(withId(R.id.step_description)).check(matches(withText(STEP_DESC)));
+                withStepDescription(STEP_DESC), click()));
+        onView(withId(R.id.step_short_description)).check(matches(withText(STEP_DESC)));
+        onView(withId(R.id.step_description)).check(matches(withText(STEP_DESC)));
     }
 
     /*
- * Matches the description of an ingredient
- */
+     * Matches the description of an ingredient
+     */
     private static Matcher<RecyclerView.ViewHolder> withIngredientDescription(final String text) {
         return new BoundedMatcher<RecyclerView.ViewHolder, IngredientAdapter.IngredientAdapterViewHolder>(
                 IngredientAdapter.IngredientAdapterViewHolder.class) {

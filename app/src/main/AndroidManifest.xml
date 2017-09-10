@@ -23,21 +23,19 @@
         <activity android:name=".StepDetailsActivity">
         </activity>
 
-        <service android:name=".AppWidgetRefreshService" />
-
-        <service
-            android:name=".GridWidgetService"
-            android:permission="android.permission.BIND_REMOTEVIEWS" />
-
-        <receiver android:name=".BakingTimeAppWidget">
+        <receiver android:name=".appWidget.BakingTimeAppWidget1">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE"/>
             </intent-filter>
 
             <meta-data
                 android:name="android.appwidget.provider"
-                android:resource="@xml/baking_time_app_widget_info"/>
+                android:resource="@xml/baking_time_app_widget1_info"/>
         </receiver>
+
+        <service
+            android:name=".appWidget.AppWidgetService"
+            android:permission="android.permission.BIND_REMOTEVIEWS"/>
     </application>
 
 </manifest>

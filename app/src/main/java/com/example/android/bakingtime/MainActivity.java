@@ -9,6 +9,8 @@ import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
+import com.example.android.bakingtime.appWidget.BakingTimeAppWidget1;
+import com.example.android.bakingtime.appWidget.RecipeStore;
 import com.example.android.bakingtime.data.Recipe;
 import com.example.android.bakingtime.idlingResource.SimpleIdlingResource;
 
@@ -17,7 +19,6 @@ import java.util.ArrayList;
 public class MainActivity extends AppCompatActivity implements MasterListFragment.OnRecipeClickListener, RecipeDownloader.DelayerCallback {
 
     public static final String RECIPE = "recipe";
-    public static final String RECIPE_NAME = "recipe_name";
     private MasterListFragment mMasterListFragment;
 
     // The Idling Resource which will be null in production.
@@ -55,7 +56,7 @@ public class MainActivity extends AppCompatActivity implements MasterListFragmen
     @Override
     protected void onResume() {
         super.onResume();
-        AppWidgetRefreshService.startActionRecipe(this, null);
+        BakingTimeAppWidget1.sendRefreshBroadcast(this);
     }
 
     @Override

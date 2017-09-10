@@ -1,4 +1,4 @@
-package com.example.android.bakingtime;
+package com.example.android.bakingtime.appWidget;
 
 /*
 * Copyright (C) 2017 The Android Open Source Project
@@ -18,27 +18,29 @@ package com.example.android.bakingtime;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.widget.RemoteViews;
 import android.widget.RemoteViewsService;
 
+import com.example.android.bakingtime.MainActivity;
+import com.example.android.bakingtime.R;
+import com.example.android.bakingtime.data.Ingredient;
 import com.example.android.bakingtime.data.Recipe;
 
-public class GridWidgetService extends RemoteViewsService {
+public class AppWidgetService extends RemoteViewsService {
     @Override
     public RemoteViewsFactory onGetViewFactory(Intent intent) {
-        Recipe recipe = intent.getParcelableExtra(MainActivity.RECIPE);
-        return new GridRemoteViewsFactory(this.getApplicationContext(), recipe);
+        return new AppRemoteViewsFactory(this.getApplicationContext());
     }
 }
 
-class GridRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory {
+class AppRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory {
 
     Context mContext;
     Recipe mRecipe;
 
-    public GridRemoteViewsFactory(Context applicationContext, Recipe recipe) {
+    public AppRemoteViewsFactory(Context applicationContext) {
         mContext = applicationContext;
-        mRecipe = recipe;
     }
 
     @Override
@@ -47,6 +49,7 @@ class GridRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory {
 
     @Override
     public void onDataSetChanged() {
+        mRecipe = RecipeStore.getInstance().getRecipe();
     }
 
     @Override
@@ -73,7 +76,16 @@ class GridRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory {
             return null;
 
         RemoteViews views = new RemoteViews(mContext.getPackageName(), R.layout.widget_item);
-        views.setTextViewText(R.id.widget_ingredient_name, mRecipe.getIngredients().get(position).getName());
+        Ingredient ingredient = mRecipe.getIngredients().get(position);
+        Double quantity = ingredient.getQuantity();
+        String measure = ingredient.getMeasure();
+        String name = ingredient.getName();
+        String description = String.format("%.1f %s %s", quantity, measure, name);
+        views.setTextViewText(R.id.widget_ingredient_name, description);
+
+        Intent fillInIntent = new Intent();
+        fillInIntent.putExtra(MainActivity.RECIPE, mRecipe);
+        views.setOnClickFillInIntent(R.id.widget_item_container, fillInIntent);
 
         return views;
 
