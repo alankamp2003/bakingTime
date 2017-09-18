@@ -14,6 +14,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.android.bakingtime.data.Step;
+import com.google.android.exoplayer2.C;
 import com.google.android.exoplayer2.DefaultLoadControl;
 import com.google.android.exoplayer2.ExoPlayerFactory;
 import com.google.android.exoplayer2.LoadControl;
@@ -39,10 +40,13 @@ public class StepDetailsFragment extends Fragment {
     private static String STEPS = "steps";
     private static String INDEX = "steps";
     private static String SHOW_STEP_BUTTONS = "steps";
+    private static String SELECTED_POSITION = "selected_position";
 
     private ArrayList<Step> mSteps;
     private int mIndex = -1;
+    private long mPosition = C.TIME_UNSET;
     private boolean mShowStepButtons;
+    private boolean mIsStateRestored;
     private SimpleExoPlayer mExoPlayer;
     private ImageView mThumbnailView;
     private SimpleExoPlayerView mPlayerView;
@@ -83,6 +87,7 @@ public class StepDetailsFragment extends Fragment {
                 setStep(mSteps.get(mIndex));
             }
         });
+        restoreState(savedInstanceState);
         initializePlayer();
         return view;
     }
@@ -105,16 +110,24 @@ public class StepDetailsFragment extends Fragment {
     @Override
     public void onPause() {
         super.onPause();
+        if (mExoPlayer != null)
+            mPosition = mExoPlayer.getCurrentPosition();
         releasePlayer();
     }
 
     @Override
     public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
         super.onViewStateRestored(savedInstanceState);
-        if (savedInstanceState != null) {
+        restoreState(savedInstanceState);
+    }
+
+    private void restoreState(@Nullable Bundle savedInstanceState) {
+        if (savedInstanceState != null && !mIsStateRestored) {
             mSteps = savedInstanceState.getParcelableArrayList(STEPS);
             mIndex = savedInstanceState.getInt(INDEX, -1);
             mShowStepButtons = savedInstanceState.getBoolean(SHOW_STEP_BUTTONS);
+            mPosition = savedInstanceState.getLong(SELECTED_POSITION, C.TIME_UNSET);
+            mIsStateRestored = true;
         }
     }
 
@@ -123,6 +136,7 @@ public class StepDetailsFragment extends Fragment {
         outState.putParcelableArrayList(STEPS, mSteps);
         outState.putInt(INDEX, mIndex);
         outState.putBoolean(SHOW_STEP_BUTTONS, mShowStepButtons);
+        outState.putLong(SELECTED_POSITION, mPosition);
         super.onSaveInstanceState(outState);
     }
 
@@ -159,8 +173,7 @@ public class StepDetailsFragment extends Fragment {
      */
     private void setStep(Step step) {
         Uri uri = null;
-        boolean isThumbnail;
-        isThumbnail = false;
+        boolean isThumbnail = false;
         if (step != null) {
             if (!TextUtils.isEmpty(step.getVideoURL())) {
                 uri = Uri.parse(step.getVideoURL());
@@ -196,6 +209,8 @@ public class StepDetailsFragment extends Fragment {
                 String userAgent = Util.getUserAgent(this.getContext(), "BakingTime");
                 MediaSource mediaSource = new ExtractorMediaSource(mediaUri, new DefaultDataSourceFactory(
                         this.getContext(), userAgent), new DefaultExtractorsFactory(), null, null);
+                if (mPosition != C.TIME_UNSET)
+                    mExoPlayer.seekTo(mPosition);
                 mExoPlayer.prepare(mediaSource);
                 mExoPlayer.setPlayWhenReady(true);
             }

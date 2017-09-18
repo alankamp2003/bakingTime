@@ -19,10 +19,12 @@ package com.example.android.bakingtime;
 import android.content.Context;
 import android.content.res.Resources;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.android.bakingtime.appWidget.BakingTimeAppWidget1;
@@ -32,6 +34,7 @@ import com.example.android.bakingtime.data.Recipe;
 import java.util.List;
 
 import com.example.android.bakingtime.R;
+import com.squareup.picasso.Picasso;
 
 // Custom adapter class that displays a list of recipes in a GridView
 public class MasterListAdapter extends RecyclerView.Adapter<MasterListAdapter.MasterListAdapterViewHolder> {
@@ -63,11 +66,14 @@ public class MasterListAdapter extends RecyclerView.Adapter<MasterListAdapter.Ma
     @Override
     public void onBindViewHolder(MasterListAdapterViewHolder holder, int position) {
         Recipe recipe = mRecipes.get(position);
-        // Set the recipe name and return the newly created TextView
+        // Set the recipe name and image
         holder.nameView.setText(recipe.getName());
-        Resources res = mContext.getResources();
-        String servingsText = res.getString(R.string.servings, String.valueOf(recipe.getServings()));
-        holder.servingsView.setText(servingsText);
+        if (!TextUtils.isEmpty(recipe.getImage())) {
+            Picasso.with(mContext).load(recipe.getImage()).placeholder(R.drawable.question_mark).
+                    error(R.drawable.question_mark).into(holder.imageView);
+        } else {
+            holder.imageView.setImageResource(R.drawable.question_mark);
+        }
     }
 
     @Override
@@ -85,12 +91,12 @@ public class MasterListAdapter extends RecyclerView.Adapter<MasterListAdapter.Ma
      */
     class MasterListAdapterViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener  {
         TextView nameView;
-        TextView servingsView;
+        ImageView imageView;
 
         public MasterListAdapterViewHolder(View itemView) {
             super(itemView);
             nameView = (TextView) itemView.findViewById(R.id.recipe_name);
-            servingsView = (TextView) itemView.findViewById(R.id.recipe_servings);
+            imageView = (ImageView) itemView.findViewById(R.id.recipe_image);
             itemView.setOnClickListener(this);
         }
 

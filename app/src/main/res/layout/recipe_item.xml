@@ -20,7 +20,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_gravity="center"
-            android:layout_margin="20dp"
+            android:layout_margin="10dp"
             android:orientation="vertical"
             android:background="@drawable/recipe_selector">
 
@@ -30,17 +30,14 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:textColor="@android:color/white"
-                android:textSize="50sp"
+                android:textSize="30sp"
                 tools:text="Recipe Name"/>
 
-            <TextView
-                android:id="@+id/recipe_servings"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:textColor="@android:color/white"
-                android:textSize="35sp"
-                tools:text="Servings: 10"/>
+            <ImageView
+                android:id="@+id/recipe_image"
+                android:layout_width="100dp"
+                android:layout_height="75dp"
+                android:layout_gravity="center"/>
         </LinearLayout>
     </android.support.v7.widget.CardView>
 

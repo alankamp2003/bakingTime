@@ -4,7 +4,7 @@
     <string name="no_recipe_message">No recipes found.</string>
     <string name="no_recipe_selected">No recipe selected</string>
     <string name="recipe_list_load_error">Error loading one or more recipes!</string>
-    <string name="servings">%1$s Servings</string>
+    <string name="servings">%1$s - %2$s Servings</string>
     <string name="ingredients">Ingredients</string>
     <string name="steps">Steps</string>
     <string name="no_ingredients_found">No steps found</string>

@@ -118,12 +118,12 @@ public class MasterListFragment extends Fragment implements RecipeDisplayManager
     @Override
     public void setData(ArrayList<Recipe> recipes) {
         mRecipes = recipes;
-        if (mRecipes != null) {
+        if (mRecipes != null && mRecipes.size() > 0) {
             showRecipes();
-        } else if (mRecipes.size() ==0) {
-            showNoRecipeMessage();
-        } else {
+        } else if (mRecipes == null) {
             showErrorMessage();
+        } else {
+            showNoRecipeMessage();
         }
     }
 
@@ -182,8 +182,8 @@ public class MasterListFragment extends Fragment implements RecipeDisplayManager
      * View.
      */
     private void showNoRecipeMessage() {
-        mRecipeView.setVisibility(View.INVISIBLE);
-        mErrorMessageView.setVisibility(View.INVISIBLE);
+        mRecipeView.setVisibility(View.GONE);
+        mErrorMessageView.setVisibility(View.GONE);
         mNoRecipeMessageView.setVisibility(View.VISIBLE);
     }
 }
